@@ -135,7 +135,7 @@ export function LatestInsightsSection({
 
   return (
     <Section style={backgroundColor ? { backgroundColor } : undefined} as="section">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
         <RichTitle
           as="h2"
           value={title}

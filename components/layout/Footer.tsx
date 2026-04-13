@@ -96,18 +96,18 @@ export function Footer({
           </div>
 
           {/* Right-side group (Legal + Contact/Socials) */}
-          <div className="col-span-2 grid grid-cols-2 gap-12 md:col-span-1 md:justify-end md:gap-5">
+          <div className="col-span-2 grid grid-cols-2 gap-1 md:col-span-1 md:justify-end md:gap-5">
             {/* Legal */}
             <div className="col-span-1 md:text-right">
               <div className="text-[28px] font-semibold tracking-tight text-foreground md:text-[14px]">
                 {legalColumn?.title ?? "Legal"}
               </div>
-              <div className="mt-7 flex flex-col gap-7 md:mt-4 md:gap-3">
+              <div className="mt-7 flex flex-col gap-4 md:mt-4 md:gap-3">
                 {(legalColumn?.links ?? []).map((l) => (
                   <Link
                     key={`${l.label}:${l.href}`}
                     href={l.href || "#"}
-                    className="text-[18px] font-semibold text-foreground/90 hover:text-foreground transition-colors md:text-[12px] md:font-normal md:text-foreground/45 md:hover:text-foreground/80"
+                    className="text-[16px] lg:text-[18px] font-semibold text-foreground/90 hover:text-foreground transition-colors md:text-[12px] md:font-normal md:text-foreground/45 md:hover:text-foreground/80"
                   >
                     {l.label}
                   </Link>
@@ -124,7 +124,7 @@ export function Footer({
                 <div className="mt-7 md:mt-4">
                   <a
                     href={`mailto:${contactEmail}`}
-                    className="text-[18px] font-semibold text-foreground/90 hover:text-foreground transition-colors md:text-[12px] md:font-normal md:text-foreground/45 md:hover:text-foreground/80"
+                    className="text-[16px] lg:text-[18px] font-semibold text-foreground/90 hover:text-foreground transition-colors md:text-[12px] md:font-normal md:text-foreground/45 md:hover:text-foreground/80"
                   >
                     {contactEmail}
                   </a>
@@ -135,7 +135,7 @@ export function Footer({
                 <div className="text-[28px] font-semibold tracking-tight text-foreground md:text-[14px]">
                   {socialsTitle}
                 </div>
-                <div className="mt-7 flex items-center gap-10 md:mt-4 md:justify-end md:gap-4">
+                <div className="mt-7 flex items-center gap-1 lg:gap-10 md:mt-4 md:justify-end md:gap-4">
                   {socials.map((s) => (
                     <Link
                       key={`${s.platform}:${s.href}`}

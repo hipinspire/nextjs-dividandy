@@ -62,6 +62,7 @@ export function Header({
 }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const { active: activeLang, setActive: setActiveLang } = useActiveLanguage(
     languages
@@ -87,6 +88,31 @@ export function Header({
       window.removeEventListener("click", onClick);
     };
   }, [langOpen]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileMenuOpen(false);
+        setLangOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKey);
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [mobileMenuOpen]);
 
   const placeholderNav: NavItem[] = useMemo(
     () => [
@@ -253,18 +279,158 @@ export function Header({
             </div>
             <button
               type="button"
-              aria-label="Open menu"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-accent/60"
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
+              onClick={() => {
+                setLangOpen(false);
+                setMobileMenuOpen((v) => !v);
+              }}
+              className={cn(
+                "relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-accent/60 transition-colors duration-300",
+                mobileMenuOpen && "border-accent bg-accent/10"
+              )}
             >
-              <span className="flex flex-col gap-1">
-                <span className="h-[2px] w-5 bg-accent" />
-                <span className="h-[2px] w-5 bg-accent" />
-                <span className="h-[2px] w-5 bg-accent" />
+              <span className="relative block h-5 w-5">
+                <span
+                  className={cn(
+                    "absolute left-0 top-1/2 h-[2px] w-5 -translate-y-[7px] bg-accent transition-transform duration-300",
+                    mobileMenuOpen && "translate-y-0 rotate-45"
+                  )}
+                />
+                <span
+                  className={cn(
+                    "absolute left-0 top-1/2 h-[2px] w-5 -translate-y-1/2 bg-accent transition-all duration-300",
+                    mobileMenuOpen && "opacity-0"
+                  )}
+                />
+                <span
+                  className={cn(
+                    "absolute left-0 top-1/2 h-[2px] w-5 translate-y-[5px] bg-accent transition-transform duration-300",
+                    mobileMenuOpen && "translate-y-0 -rotate-45"
+                  )}
+                />
               </span>
             </button>
           </div>
         </div>
       </Container>
+
+      <div
+        className={cn(
+          "md:hidden",
+          mobileMenuOpen ? "pointer-events-auto" : "pointer-events-none"
+        )}
+      >
+        <button
+          type="button"
+          aria-label="Close mobile menu overlay"
+          className={cn(
+            "fixed inset-0 z-40 bg-black/55 backdrop-blur-sm transition-opacity duration-300",
+            mobileMenuOpen ? "opacity-100" : "opacity-0"
+          )}
+          onClick={() => setMobileMenuOpen(false)}
+        />
+
+        <div
+          id="mobile-navigation"
+          className={cn(
+            "fixed inset-y-0 right-0 z-50 flex h-dvh w-full max-w-sm flex-col overflow-y-auto border-l border-white/10 bg-[#05080B]/95 px-6 pb-8 pt-24 shadow-2xl backdrop-blur-xl transition-transform duration-300 ease-out",
+            mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          )}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile navigation"
+        >
+          <button
+            type="button"
+            aria-label="Close mobile menu"
+            onClick={() => setMobileMenuOpen(false)}
+            className="absolute right-6 top-6 inline-flex h-11 w-11 items-center justify-center rounded-full border border-accent/60 bg-black/20 transition-colors duration-300 hover:border-accent hover:bg-accent/10"
+          >
+            <span className="relative block h-4 w-4">
+              <span className="absolute left-0 top-1/2 h-[2px] w-4 -translate-y-1/2 rotate-45 bg-accent transition-transform duration-300 hover:scale-110" />
+              <span className="absolute left-0 top-1/2 h-[2px] w-4 -translate-y-1/2 -rotate-45 bg-accent transition-transform duration-300 hover:scale-110" />
+            </span>
+          </button>
+
+          <div className="space-y-3">
+            {effectiveNav.map((item) => {
+              const href = item.href ?? "#";
+
+              return (
+                <div
+                  key={item.label}
+                  className="rounded-2xl border border-white/10 bg-white/3 px-5 py-4"
+                >
+                  <Link
+                    href={href}
+                    className="block text-lg font-semibold text-foreground transition-colors hover:text-accent"
+                    onClick={() => setMobileMenuOpen(false)}
+                    target={item.external ? "_blank" : undefined}
+                    rel={item.external ? "noreferrer" : undefined}
+                  >
+                    {item.label}
+                  </Link>
+
+                  {item.children?.length ? (
+                    <div className="mt-4 space-y-3 border-t border-white/10 pt-4">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.label}
+                          href={child.href || "#"}
+                          className="block text-sm font-medium text-foreground/70 transition-colors hover:text-foreground"
+                          onClick={() => setMobileMenuOpen(false)}
+                          target={child.external ? "_blank" : undefined}
+                          rel={child.external ? "noreferrer" : undefined}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-8">
+            <Link href={joinCta.href} onClick={() => setMobileMenuOpen(false)}>
+              <Button size={mapButtonSize(joinCta.buttonSize) ?? "md"} className="w-full">
+                {joinCta.label}
+              </Button>
+            </Link>
+          </div>
+
+          <div className="mt-8 border-t border-white/10 pt-6">
+            <div className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-foreground/45">
+              Language
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {(languages.length ? languages : [{ code: "EN", isDefault: true }]).map((l) => {
+                const code = l.code.toUpperCase();
+                const isActive = activeLang === code;
+
+                return (
+                  <button
+                    key={l.code}
+                    type="button"
+                    onClick={() => setActiveLang(code)}
+                    className={cn(
+                      "rounded-full border px-4 py-2 text-sm font-semibold transition-colors",
+                      isActive
+                        ? "border-accent bg-accent text-background"
+                        : "border-white/10 text-foreground/70 hover:border-accent/60 hover:text-foreground"
+                    )}
+                  >
+                    {code}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
   );
 }
