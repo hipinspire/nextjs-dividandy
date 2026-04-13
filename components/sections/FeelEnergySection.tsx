@@ -94,7 +94,7 @@ export function FeelEnergySection({
           {cta?.href ? (
             <div className="mt-10">
               <Link href={cta.href}>
-                <Button size={cta.buttonSize ?? "lg"} className="font-semibold tracking-wide">
+                <Button size={cta.buttonSize ?? "lg"} className="font-normal tracking-wide">
                   {cta.label || "Join the arena"}
                 </Button>
               </Link>

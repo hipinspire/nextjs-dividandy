@@ -149,13 +149,13 @@ function LeftDownloadCard({ card }: { card?: LeftCard | null }) {
         <div className="pt-6">
           {card.cta?.href ? (
             <Link href={card.cta.href} className="block">
-              <Button className="w-full font-semibold" size={card.cta.buttonSize ?? "lg"}>
+              <Button className="w-full font-normal" size={card.cta.buttonSize ?? "lg"}>
                 {card.cta.label || "Get the app"}
               </Button>
             </Link>
           ) : (
             <Button
-              className="w-full font-semibold"
+              className="w-full font-normal"
               size={card.cta?.buttonSize ?? "lg"}
               type="button"
             >

@@ -1,5 +1,37 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Haffer XH-TRIAL";
+  src: url("/fonts/HafferXH-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Haffer XH-TRIAL";
+  src: url("/fonts/HafferXH-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Haffer XH-TRIAL";
+  src: url("/fonts/HafferXH-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Haffer XH-TRIAL";
+  src: url("/fonts/HafferXH-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Dividandy dark theme baseline */
   --background: #05080b;
@@ -47,8 +79,24 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, -apple-system, Segoe UI, Roboto, Arial,
+  font-family: "Haffer XH-TRIAL", system-ui, -apple-system, Segoe UI, Roboto, Arial,
     sans-serif;
+  font-weight: 400;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.font-medium {
+  font-weight: 400;
+}
+
+.font-semibold {
+  font-weight: 500;
 }
 
 /* Make interactivity obvious */

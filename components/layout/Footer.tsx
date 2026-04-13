@@ -89,16 +89,16 @@ export function Footer({
             </div>
 
             <div className="mt-7 space-y-3">
-              <p className="whitespace-pre-line text-[16px] font-semibold leading-7 text-foreground md:text-[14px] md:font-medium md:leading-6 md:text-foreground/85">
+              <p className="whitespace-pre-line text-[16px] font-normal leading-7 text-foreground md:text-[14px] md:font-normal md:leading-6 md:text-foreground/85">
                 {logoSubtitle ?? "Master The Market.\nPlay The Game."}
               </p>
             </div>
           </div>
 
           {/* Right-side group (Legal + Contact/Socials) */}
-          <div className="col-span-2 grid grid-cols-2 gap-1 md:col-span-1 md:justify-end md:gap-5">
+          <div className="col-span-2 grid grid-cols-2 gap-1 md:col-span-1 md:justify-start md:gap-5">
             {/* Legal */}
-            <div className="col-span-1 md:text-right">
+            <div className="col-span-1">
               <div className="text-[28px] font-semibold tracking-tight text-foreground md:text-[14px]">
                 {legalColumn?.title ?? "Legal"}
               </div>
@@ -107,7 +107,7 @@ export function Footer({
                   <Link
                     key={`${l.label}:${l.href}`}
                     href={l.href || "#"}
-                    className="text-[16px] lg:text-[18px] font-semibold text-foreground/90 hover:text-foreground transition-colors md:text-[12px] md:font-normal md:text-foreground/45 md:hover:text-foreground/80"
+                    className="text-16px font-normal text-foreground/90 hover:text-accent transition-colors md:text-[12px] md:font-normal md:text-foreground/45 md:hover:text-accent/80"
                   >
                     {l.label}
                   </Link>
@@ -116,7 +116,7 @@ export function Footer({
             </div>
 
             {/* Contact + socials */}
-            <div className="col-span-1 md:text-right">
+            <div className="col-span-1">
               <div className="text-[28px] font-semibold tracking-tight text-foreground md:text-[14px]">
                 {contactTitle}
               </div>
@@ -124,7 +124,7 @@ export function Footer({
                 <div className="mt-7 md:mt-4">
                   <a
                     href={`mailto:${contactEmail}`}
-                    className="text-[16px] lg:text-[18px] font-semibold text-foreground/90 hover:text-foreground transition-colors md:text-[12px] md:font-normal md:text-foreground/45 md:hover:text-foreground/80"
+                    className="text-16px font-normal text-foreground/90 hover:text-accent transition-colors md:text-[12px] md:font-normal md:text-foreground/45 md:hover:text-accent/80"
                   >
                     {contactEmail}
                   </a>
@@ -135,12 +135,12 @@ export function Footer({
                 <div className="text-[28px] font-semibold tracking-tight text-foreground md:text-[14px]">
                   {socialsTitle}
                 </div>
-                <div className="mt-7 flex items-center gap-1 lg:gap-10 md:mt-4 md:justify-end md:gap-4">
+                <div className="mt-7 flex items-center gap-1 lg:gap-5 md:mt-4 md:justify-start md:gap-4">
                   {socials.map((s) => (
                     <Link
                       key={`${s.platform}:${s.href}`}
                       href={s.href}
-                      className="text-foreground/90 hover:text-foreground transition-colors"
+                      className="text-foreground/90 hover:text-accent transition-colors"
                       aria-label={s.platform}
                     >
                       <SocialIcon platform={s.platform} />
@@ -155,11 +155,11 @@ export function Footer({
         {/* Row 2 */}
         <div className="mt-14 border-t border-white/10" />
         {separatorText ? (
-          <div className="mt-10 flex items-start gap-4 text-foreground/70 md:text-foreground/55">
+          <div className="mt-10 flex justify-center items-start gap-4 text-foreground/70 md:text-foreground/55">
             <span className="mt-0.5 grid h-7 w-7 place-items-center rounded-md border border-white/15 bg-white/5">
               <IconAdult className="h-5 w-5" />
             </span>
-            <p className="max-w-[70ch] text-[16px] font-medium leading-7 md:text-[12px] md:font-normal md:leading-6">
+            <p className="max-w-[80vw] text-[16px] font-medium leading-7 md:text-[12px] md:font-normal md:leading-6">
               {separatorText}
             </p>
           </div>
@@ -178,8 +178,8 @@ export function Footer({
               <LanguageInline
                 languages={languages}
                 className="gap-7 md:gap-4"
-                activeClassName="text-[16px] font-semibold tracking-wide text-accent md:text-[12px]"
-                inactiveClassName="text-[16px] font-semibold tracking-wide text-foreground/80 hover:text-foreground md:text-[12px]"
+                activeClassName="text-[16px] font-normal tracking-wide text-accent md:text-[12px]"
+                inactiveClassName="text-[16px] font-normal tracking-wide text-foreground/80 hover:text-accent md:text-[12px]"
               />
             </div>
           ) : null}

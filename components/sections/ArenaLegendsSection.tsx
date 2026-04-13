@@ -97,7 +97,7 @@ export function ArenaLegendsSection({
                 <Link href={cta.href}>
                   <Button
                     size={cta.buttonSize ?? "md"}
-                    className="font-semibold tracking-wide"
+                    className="font-normal tracking-wide"
                   >
                     {cta.label || "Join the arena"}
                   </Button>

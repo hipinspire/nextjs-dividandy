@@ -149,7 +149,7 @@ export function LatestInsightsSection({
               <Button
                 size={viewAll.buttonSize ?? "sm"}
                 className={cn(
-                  "h-12 px-6 text-[16px] font-semibold tracking-wide uppercase",
+                  "h-12 px-6 text-[16px] font-normal tracking-wide uppercase",
                   "text-accent-foreground"
                 )}
               >

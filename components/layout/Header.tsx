@@ -365,7 +365,7 @@ export function Header({
                 >
                   <Link
                     href={href}
-                    className="block text-lg font-semibold text-foreground transition-colors hover:text-accent"
+                    className="block text-lg font-normal text-foreground transition-colors hover:text-accent"
                     onClick={() => setMobileMenuOpen(false)}
                     target={item.external ? "_blank" : undefined}
                     rel={item.external ? "noreferrer" : undefined}
@@ -417,7 +417,7 @@ export function Header({
                     type="button"
                     onClick={() => setActiveLang(code)}
                     className={cn(
-                      "rounded-full border px-4 py-2 text-sm font-semibold transition-colors",
+                      "rounded-full border px-4 py-2 text-sm font-normal transition-colors",
                       isActive
                         ? "border-accent bg-accent text-background"
                         : "border-white/10 text-foreground/70 hover:border-accent/60 hover:text-foreground"
