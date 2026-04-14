@@ -2,6 +2,8 @@ import Image from "next/image";
 import { RichTitle, type RichTitleValue } from "@/components/ui/RichTitle";
 
 type HeroSectionProps = {
+  backgroundVideoUrl?: string | null;
+  backgroundVideoMobileUrl?: string | null;
   backgroundImageUrl?: string | null;
   backgroundImageAlt?: string | null;
   backgroundImageMobileUrl?: string | null;
@@ -18,7 +20,34 @@ function isLocalStrapiAsset(url: string) {
   );
 }
 
+function BackgroundVideo({
+  src,
+  poster,
+  className,
+}: {
+  src: string;
+  poster?: string | null;
+  className?: string;
+}) {
+  return (
+    <video
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      poster={poster ?? undefined}
+      aria-hidden="true"
+      className={className}
+    >
+      <source src={src} />
+    </video>
+  );
+}
+
 export function HeroSection({
+  backgroundVideoUrl,
+  backgroundVideoMobileUrl,
   backgroundImageUrl,
   backgroundImageAlt,
   backgroundImageMobileUrl,
@@ -27,38 +56,56 @@ export function HeroSection({
   heading,
   subheading,
 }: HeroSectionProps) {
-  const showImage = Boolean(backgroundImageUrl || backgroundImageMobileUrl);
+  const desktopVideoUrl = backgroundVideoUrl ?? null;
+  const mobileVideoUrl = backgroundVideoMobileUrl ?? backgroundVideoUrl ?? null;
+  const desktopImageUrl = backgroundImageUrl ?? null;
+  const mobileImageUrl = backgroundImageMobileUrl ?? backgroundImageUrl ?? null;
+  const showMedia = Boolean(
+    desktopVideoUrl || mobileVideoUrl || desktopImageUrl || mobileImageUrl
+  );
   const style =
-    !showImage && backgroundColor ? { backgroundColor } : undefined;
+    !showMedia && backgroundColor ? { backgroundColor } : undefined;
 
   return (
     <section
-      className="relative -mt-20 flex min-h-[62svh] items-end justify-center overflow-hidden"
+      className="relative -mt-20 flex min-h-[62svh] items-end justify-center overflow-hidden bg-[#05080B]"
       style={style}
     >
       <div className="absolute inset-0">
         <div className="absolute inset-0 hidden sm:block">
-          {backgroundImageUrl ? (
+          {desktopVideoUrl ? (
+            <BackgroundVideo
+              src={desktopVideoUrl}
+              poster={desktopImageUrl}
+              className="h-full w-full object-cover"
+            />
+          ) : desktopImageUrl ? (
             <Image
-              src={backgroundImageUrl}
+              src={desktopImageUrl}
               alt={backgroundImageAlt ?? ""}
               fill
               priority
               sizes="100vw"
-              unoptimized={isLocalStrapiAsset(backgroundImageUrl)}
+              unoptimized={isLocalStrapiAsset(desktopImageUrl)}
               className="object-cover"
             />
           ) : null}
         </div>
         <div className="absolute inset-0 sm:hidden">
-          {backgroundImageMobileUrl || backgroundImageUrl ? (
+          {mobileVideoUrl ? (
+            <BackgroundVideo
+              src={mobileVideoUrl}
+              poster={mobileImageUrl}
+              className="h-full w-full object-cover"
+            />
+          ) : mobileImageUrl ? (
             <Image
-              src={backgroundImageMobileUrl ?? backgroundImageUrl!}
+              src={mobileImageUrl}
               alt={backgroundImageMobileAlt ?? backgroundImageAlt ?? ""}
               fill
               priority
               sizes="100vw"
-              unoptimized={isLocalStrapiAsset(backgroundImageMobileUrl ?? backgroundImageUrl!)}
+              unoptimized={isLocalStrapiAsset(mobileImageUrl)}
               className="object-cover"
             />
           ) : null}

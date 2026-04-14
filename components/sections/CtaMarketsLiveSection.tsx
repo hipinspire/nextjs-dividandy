@@ -13,6 +13,7 @@ function isLocalStrapiAsset(url: string) {
 type Cta = { label: string; href: string; buttonSize?: ButtonSize };
 
 type CtaMarketsLiveSectionProps = {
+  backgroundVideoUrl?: string | null;
   backgroundImageUrl?: string | null;
   backgroundImageAlt?: string | null;
   backgroundColor?: string | null;
@@ -21,7 +22,31 @@ type CtaMarketsLiveSectionProps = {
   cta?: Cta | null;
 };
 
+function BackgroundVideo({
+  src,
+  poster,
+}: {
+  src: string;
+  poster?: string | null;
+}) {
+  return (
+    <video
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      poster={poster ?? undefined}
+      aria-hidden="true"
+      className="h-full w-full object-cover"
+    >
+      <source src={src} />
+    </video>
+  );
+}
+
 export function CtaMarketsLiveSection({
+  backgroundVideoUrl,
   backgroundImageUrl,
   backgroundImageAlt,
   backgroundColor,
@@ -29,24 +54,28 @@ export function CtaMarketsLiveSection({
   subtitle,
   cta,
 }: CtaMarketsLiveSectionProps) {
-  const showImage = Boolean(backgroundImageUrl);
+  const showMedia = Boolean(backgroundVideoUrl || backgroundImageUrl);
   const style =
-    !showImage && backgroundColor ? { backgroundColor } : undefined;
+    !showMedia && backgroundColor ? { backgroundColor } : undefined;
   return (
     <section
-      className="relative min-h-[62svh] overflow-hidden"
+      className="relative min-h-[62svh] overflow-hidden bg-[#05080B]"
       style={style}
     >
-      {backgroundImageUrl ? (
+      {backgroundVideoUrl || backgroundImageUrl ? (
         <div className="absolute inset-0">
-          <Image
-            src={backgroundImageUrl}
-            alt={backgroundImageAlt ?? ""}
-            fill
-            sizes="100vw"
-            unoptimized={isLocalStrapiAsset(backgroundImageUrl)}
-            className="object-cover"
-          />
+          {backgroundVideoUrl ? (
+            <BackgroundVideo src={backgroundVideoUrl} poster={backgroundImageUrl} />
+          ) : (
+            <Image
+              src={backgroundImageUrl!}
+              alt={backgroundImageAlt ?? ""}
+              fill
+              sizes="100vw"
+              unoptimized={isLocalStrapiAsset(backgroundImageUrl!)}
+              className="object-cover"
+            />
+          )}
           <div className="absolute inset-0 bg-black/55" />
           <div className="absolute inset-0 bg-[radial-gradient(70%_70%_at_50%_25%,rgba(0,0,0,0)_0%,rgba(0,0,0,0.75)_78%,rgba(0,0,0,0.92)_100%)]" />
         </div>

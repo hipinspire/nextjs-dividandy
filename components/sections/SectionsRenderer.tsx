@@ -289,6 +289,8 @@ export function SectionsRenderer({ sections }: SectionsRendererProps) {
             return (
               <HeroSection
                 key={`hero:${s.id}`}
+                backgroundVideoUrl={getMediaUrl(v.backgroundVideo)}
+                backgroundVideoMobileUrl={getMediaUrl(v.backgroundVideoMobile)}
                 backgroundImageUrl={getMediaUrl(v.backgroundImage)}
                 backgroundImageAlt={getMediaAlt(v.backgroundImage)}
                 backgroundImageMobileUrl={getMediaUrl(v.backgroundImageMobile)}
@@ -371,6 +373,7 @@ export function SectionsRenderer({ sections }: SectionsRendererProps) {
             return (
               <CtaMarketsLiveSection
                 key={`cta:${s.id}`}
+                backgroundVideoUrl={getMediaUrl(v.backgroundVideo)}
                 backgroundImageUrl={getMediaUrl(v.backgroundImage)}
                 backgroundImageAlt={getMediaAlt(v.backgroundImage)}
                 backgroundColor={getOptionalString(v.backgroundColor) ?? null}
